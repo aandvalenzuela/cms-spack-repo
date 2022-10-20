@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then
     echo "ERROR: couldn't fetch spack.lock"
     exit 1
 fi
-spack ${SPACK_DEBUG_FLAG} install -j"$CORES" --fail-fast --reuse --cache-only
+spack ${SPACK_DEBUG_FLAG} install -j"$CORES" --fail-fast
 exit_code=$?
 if [ ${exit_code} -eq 0 ]; then
     echo Installation complete

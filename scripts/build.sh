@@ -73,7 +73,7 @@ echo Add padding to install_tree
 ${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} config add "config:install_tree:root:${RPM_INSTALL_PREFIX}/${SCRAM_ARCH}"
 echo Start the installation
 ${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} concretize --fresh
-${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} install --monitor --monitor-save-local ${WORKSPACE}/monitor --fresh --show-log-on-error -j16 --fail-fast
+${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} install --monitor --monitor-save-local --fresh --show-log-on-error -j16 --fail-fast
 exit_code=$?
 if [ ${exit_code} -ne 0 ]; then
     touch $WORKSPACE/fail
