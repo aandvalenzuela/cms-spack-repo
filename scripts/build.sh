@@ -71,20 +71,11 @@ echo Setup spack
 . share/spack/setup-env.sh
 echo Add padding to install_tree
 ${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} config add "config:install_tree:root:${RPM_INSTALL_PREFIX}/${SCRAM_ARCH}"
-${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} config add "config:install_tree:padded_length:128"
 echo Start the installation
 ${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} concretize --fresh
-${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} install --fresh --show-log-on-error -j$CORES --fail-fast
+${WORKSPACE}/spack/bin/spack ${SPACK_DEBUG_FLAG} -e ${SPACK_ENV_NAME} install --fresh --show-log-on-error -j16 --fail-fast
 exit_code=$?
 if [ ${exit_code} -ne 0 ]; then
     touch $WORKSPACE/fail
     exit ${exit_code}
 fi
-
-echo Create and upload buildcache
-if [ ${UPLOAD_BUILDCACHE-x} = "true" ]; then
-  echo Prepare mirror and buildcache
-  # TODO: push gpg key to mirror (broken in 0.17, should be working in 0.18)
-  ${WORKSPACE}/spack/bin/spack -e ${SPACK_ENV_NAME} buildcache create -r -a --mirror-url s3://cms-spack/${SCRAM_ARCH}/
-fi
-echo build.sh done
